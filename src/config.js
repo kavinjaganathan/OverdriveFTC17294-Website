@@ -24,8 +24,8 @@ export const CONTACT = {
 export const TABS = [
   { id: 'home', label: 'Home', enabled: true },
   { id: 'team', label: 'Meet the Team', enabled: true },
-  { id: 'about', label: 'About Us' },
   { id: 'robot', label: 'Robot' },
   { id: 'awards', label: 'Awards', enabled: true },
+  { id: 'alumni', label: 'Alumni', enabled: true },
   { id: 'contact', label: 'Contact' },
 ]

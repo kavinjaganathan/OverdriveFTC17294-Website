@@ -4,6 +4,7 @@ import Intro from './components/Intro.jsx'
 import LogoPanel from './components/LogoPanel.jsx'
 import TeamPage from './components/TeamPage.jsx'
 import AwardsPage from './components/AwardsPage.jsx'
+import AlumniPage from './components/AlumniPage.jsx'
 import { Champions, Engineering, Footer, Hero, Identity, Sustainability } from './components/Sections.jsx'
 import { updateProgress } from './scrollStore.js'
 
@@ -13,13 +14,21 @@ const shouldIntro = () => {
   } catch { return false }
 }
 
-// Hash routes: #home (default), #awards, #team, and #team-<subteam> to land on a section.
+// Hash routes: #home (default), #awards, #alumni, #team, and #team-<subteam> to land on a section.
 const parseHash = () => {
   const h = location.hash.slice(1)
   if (h === 'team' || h.startsWith('team-')) return { page: 'team', sub: h.slice(5) }
-  if (h === 'awards') return { page: 'awards', sub: '' }
+  if (h === 'awards' || h === 'alumni') return { page: h, sub: '' }
   return { page: 'home', sub: '' }
 }
+
+const PAGE_META = {
+  alumni: {
+    title: 'Alumni — Overdrive 17294',
+    description: 'Former members of Overdrive, FTC Team 17294 from Frisco, Texas, and where they went next.',
+  },
+}
+const DEFAULT_META = {}
 
 export default function App() {
   const scroller = useRef(null)
@@ -42,6 +51,16 @@ export default function App() {
     if (target) target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
     else el.scrollTo({ top: 0, behavior: 'auto' })
   }, [page, sub])
+
+  // Per-page title and description; pages without an entry keep the defaults from index.html.
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="description"]')
+    DEFAULT_META.title ??= document.title
+    DEFAULT_META.description ??= meta?.content
+    const m = PAGE_META[page] || DEFAULT_META
+    document.title = m.title
+    meta?.setAttribute('content', m.description)
+  }, [page])
 
   // Observe (never alter) native scrolling of the left panel.
   useEffect(() => {
@@ -75,6 +94,8 @@ export default function App() {
               <TeamPage />
             ) : page === 'awards' ? (
               <AwardsPage />
+            ) : page === 'alumni' ? (
+              <AlumniPage />
             ) : (
               <>
                 <Hero ready={!intro} />

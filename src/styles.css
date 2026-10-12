@@ -100,10 +100,10 @@ html, body { overflow: hidden; }
 .team__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(32px, 5vw, 56px); }
 .team__title { font-size: clamp(2.8rem, 7vw, 6.2rem); font-weight: 800; letter-spacing: -.045em; line-height: .92; }
 .sn--all { --c: var(--ink); }
-.sn--building, .sub--building { --c: #9a5420; --tint: #fcf7f0; }
-.sn--programming, .sub--programming { --c: #7d2f93; --tint: #f9f4fb; }
-.sn--cad, .sub--cad { --c: #2f5a8a; --tint: #f1f5fa; }
-.sn--outreach, .sub--outreach { --c: #2f5d3a; --tint: #f1f6ee; }
+.sn--building, .sub--building, .st--building { --c: #9a5420; --tint: #fcf7f0; }
+.sn--programming, .sub--programming, .st--programming { --c: #7d2f93; --tint: #f9f4fb; }
+.sn--cad, .sub--cad, .st--cad { --c: #2f5a8a; --tint: #f1f5fa; }
+.sn--outreach, .sub--outreach, .st--outreach { --c: #2f5d3a; --tint: #f1f6ee; }
 
 /* sticky subteam bar, directly under the folder tabs */
 .subnav { position: sticky; top: var(--nav-h); z-index: 25; background: #fff; border-bottom: 1px solid var(--line); }
@@ -263,6 +263,104 @@ html, body { overflow: hidden; }
   .awards--anim .is-in { opacity: 1; translate: none; }
 }
 
+/* ---------- Alumni: "the rafters" ---------- */
+/* Outline colour is the site's deep purple; stripes reuse the shield logo's dark/cream pair. */
+.alumni { --pad: clamp(20px, 4.5vw, 72px); --alum-line: var(--purple-deep); --lav: #efe9f3; --c: var(--alum-line); --tint: var(--lav); --mute: #4a4955; --stripes: repeating-linear-gradient(90deg, #2f2e29 0 4px, #e0daca 4px 8px); }
+.outlined { color: var(--lav); -webkit-text-stroke: 6px var(--alum-line); paint-order: stroke fill; text-shadow: 0 6px 0 var(--alum-line); font-weight: 900; letter-spacing: -.02em; }
+.alumni__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(40px, 6vw, 72px); }
+.alumni__title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
+
+
+
+/* college seal: a quiet rectangular plate; seals keep their own colours and proportions */
+.seal { flex: none; display: grid; place-items: center; width: 5rem; height: 5rem; padding: .5rem; border: 1px solid var(--line); border-radius: 4px; background: #faf9fb; }
+.seal img { display: block; width: 4rem; height: 4rem; object-fit: contain; } /* any shape fits the same box, undistorted */
+.seal--text { font-size: .875rem; font-weight: 800; letter-spacing: .04em; color: var(--ink); }
+.seal--none span { font-size: .5625rem; font-weight: 700; line-height: 1.1; text-align: center; text-transform: uppercase; color: var(--mute); }
+
+.afilter { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--line); }
+.afilter__btn { padding: .75rem 0; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; font: inherit; font-size: .9375rem; font-weight: 600; color: var(--mute); cursor: pointer; }
+.afilter__btn:hover { color: var(--ink); }
+.afilter__btn[aria-pressed='true'] { color: var(--ink); border-bottom-color: var(--purple); }
+.afilter__clear { margin-left: auto; padding: .75rem 0; background: none; border: 0; font: inherit; font-size: .8125rem; color: var(--mute); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+.aclass { padding-bottom: clamp(48px, 7vw, 80px); }
+.aclass__head { margin-bottom: 1.5rem; }
+/* pennant: dark outline layer, then a purple body with striped swallowtail tips */
+.pennant { position: relative; isolation: isolate; display: inline-block; padding: 1rem 4.5rem 1.25rem; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1; }
+.pennant::before, .pennant::after { content: ''; position: absolute; z-index: -1; clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 50%, 100% 100%, 0 100%, 28px 50%); }
+.pennant::before { inset: 0; background: var(--alum-line); }
+.pennant::after {
+  inset: 3px;
+  background:
+    linear-gradient(var(--alum-line), var(--alum-line)) 45px 0 / 3px 100% no-repeat,
+    linear-gradient(var(--alum-line), var(--alum-line)) calc(100% - 45px) 0 / 3px 100% no-repeat,
+    linear-gradient(var(--purple), var(--purple)) center / calc(100% - 96px) 100% no-repeat,
+    var(--stripes);
+}
+.pennant .outlined { -webkit-text-stroke-width: 4px; text-shadow: 0 3px 0 var(--alum-line); }
+.aclass__count { margin-top: .75rem; font-size: .875rem; color: var(--mute); }
+.aclass__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 720px) { .aclass__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .aclass__grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* card: rows are shared with neighbours (subgrid) so names and college rows line up */
+/* --c / --tint come from .alumni (neutral) or an .st--<subteam> class on the card */
+.alum { position: relative; display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: 0; perspective: 1400px; }
+.alum__flip { grid-row: 1 / -1; display: grid; grid-template-rows: subgrid; }
+.alum__front, .alum__back { grid-column: 1; position: relative; border: 3px solid var(--alum-line); border-top-color: var(--c); border-radius: 12px; background: #fff; box-shadow: 0 4px 0 var(--alum-line); }
+.alum__front { grid-row: 1 / 7; display: grid; grid-template-rows: subgrid; overflow: hidden; padding-bottom: 1.5rem; }
+.alum__front::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: rgba(255, 255, 255, .6); pointer-events: none; }
+.alum__front > :not(.alum__photo) { padding-inline: 1.5rem; }
+.alum__photo { position: relative; aspect-ratio: 16 / 10; background: var(--tint); display: grid; place-items: center; }
+.alum__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.alum__mono { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -.03em; color: var(--c); }
+.alum__badge { position: absolute; top: .75rem; left: .75rem; }
+.alum__pending { position: absolute; top: .75rem; right: .75rem; padding: 0 .5rem; border: 1px solid #cfcbd6; border-radius: 2px; background: #fff; font-size: .6875rem; font-weight: 700; line-height: 1.5rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.alum__name { padding-top: 1rem; font-size: 1.375rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+.alum__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1rem; padding-top: .25rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
+.alum__role { font-weight: 600; color: var(--ink); }
+.alum__years { display: inline-flex; align-items: center; gap: .5rem; }
+.alum .pips i { border-color: var(--c); }
+.alum .pips i.on { background: var(--c); }
+.alum__college { display: flex; align-items: center; gap: 1rem; padding-top: 1rem; }
+.alum__college p { min-width: 0; line-height: 1.4; }
+.alum__school { display: block; font-size: .9375rem; font-weight: 700; }
+.alum__major { display: block; font-size: .875rem; color: var(--mute); }
+.alum__summary { padding-top: 1rem; font-size: .9375rem; line-height: 1.6; }
+.alum__summary--empty { color: var(--mute); }
+.alum__actions:not(:empty) { padding-top: 1rem; }
+.alum__flipbtn { padding: .25rem 0; background: none; border: 0; border-bottom: 2px solid currentColor; font: inherit; font-size: .875rem; font-weight: 700; color: var(--alum-line); cursor: pointer; }
+/* advice: by default (and under reduced motion) it opens beneath the card */
+.alum__back { grid-row: 7; display: none; flex-direction: column; justify-content: space-between; gap: 1.5rem; margin-top: .5rem; padding: 1.5rem; background: var(--tint); }
+.alum.is-open .alum__back { display: flex; }
+.alum__quote { margin: 0; }
+.alum__quote p { font-size: 1.25rem; font-weight: 700; line-height: 1.45; letter-spacing: -.01em; }
+.alum__quote footer { margin-top: 1rem; font-size: .875rem; color: var(--mute); }
+.alum__back .alum__flipbtn { align-self: flex-start; }
+
+.alumni__empty { padding-top: 2rem; padding-bottom: 4rem; }
+.alumni__empty-title { padding-top: 1.5rem; border-top: 1px solid var(--ink); margin-bottom: 1rem; font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.02em; }
+.alumni__close { padding-top: 2.5rem; padding-bottom: clamp(48px, 7vw, 88px); }
+.alumni__ask { padding-top: 1.5rem; border-top: 1px solid var(--ink); font-size: clamp(1.25rem, 2.2vw, 1.75rem); font-weight: 800; letter-spacing: -.02em; }
+.alumni__close .cta { margin-top: 1.5rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .alumni--anim .alum { opacity: 0; scale: .96; translate: 0 12px; transition: opacity .45s ease-out, scale .45s cubic-bezier(.2, .7, .2, 1), translate .45s cubic-bezier(.2, .7, .2, 1), transform .15s ease-out; }
+  .alumni--anim .alum[data-in] { opacity: 1; scale: none; translate: none; }
+  .alum { transition: transform .15s ease-out; }
+  .alum__front, .alum__back { transition: box-shadow .15s ease-out; }
+  @media (hover: hover) {
+    .alum:hover { transform: translateY(-2px); }
+    .alum:hover .alum__front, .alum:hover .alum__back { box-shadow: 0 5px 0 var(--alum-line); }
+  }
+  /* full motion: the advice is the back face of a flip card */
+  .alum__flip { transform-style: preserve-3d; transition: transform 350ms cubic-bezier(.2, .7, .2, 1); }
+  .alum.is-open .alum__flip { transform: rotateY(180deg); }
+  .alum__front, .alum__back { backface-visibility: hidden; }
+  .alum__back { grid-row: 1 / 7; display: flex; margin-top: 0; transform: rotateY(180deg); }
+}
+
 /* ---------- Footer ---------- */
 .foot { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; padding: 40px clamp(20px, 4.5vw, 72px) 56px; font-size: .92rem; color: var(--mute); line-height: 1.8; }
 .foot strong { color: var(--ink); font-weight: 700; }
@@ -293,6 +391,9 @@ html, body { overflow: hidden; }
   .sub__grid, .sub__grid--four { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 760px) {
+  .alumni__head { grid-template-columns: 1fr; align-items: start; }
+  .outlined { -webkit-text-stroke-width: 4px; text-shadow: 0 4px 0 var(--alum-line); }
+  .pennant { padding-inline: 4rem; }
   /* timeline moves to the left edge; every entry sits to its right */
   .awards { --gap: 40px; }
   .awards__head { grid-template-columns: 1fr; align-items: start; }
