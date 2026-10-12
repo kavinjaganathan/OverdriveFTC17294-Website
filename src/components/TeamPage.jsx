@@ -6,11 +6,11 @@ const motionOK = () => matchMedia('(prefers-reduced-motion: no-preference)').mat
 const initials = (name) => name.replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).map((p) => p[0]).join('').slice(0, 2)
 
 /**
- * Portrait slot: shows the real photo from /team/<id>.jpg once it has loaded; until then (or if the
- * file doesn't exist) a labelled initials placeholder fills the same box, so layout never shifts.
+ * Portrait slot: shows the member's photo once it has loaded; until then (or if there is no photo
+ * or it fails to load) a labelled initials placeholder fills the same box, so layout never shifts.
  */
 function Portrait({ member }) {
-  const [state, setState] = useState('pending') // pending | loaded | missing
+  const [state, setState] = useState(member.photo ? 'pending' : 'missing') // pending | loaded | missing
   return (
     <div className="portrait">
       {state !== 'loaded' && (
@@ -22,8 +22,14 @@ function Portrait({ member }) {
       {state !== 'missing' && (
         <img
           className={state === 'loaded' ? 'is-loaded' : ''}
-          src={`/team/${member.id}.jpg`}
+          src={member.photo}
+          style={{
+            objectPosition: member.focus,
+            // scale around the upper middle, where the face sits once `focus` has placed it
+            ...(member.zoom && { transform: `scale(${member.zoom})`, transformOrigin: '50% 35%' }),
+          }}
           alt={`Portrait of ${member.name}${member.title ? `, ${member.title}` : ''}`}
+          loading="lazy"
           decoding="async"
           onLoad={() => setState('loaded')}
           onError={() => setState('missing')}
