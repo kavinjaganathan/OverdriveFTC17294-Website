@@ -26,6 +26,6 @@ export const TABS = [
   { id: 'team', label: 'Meet the Team', enabled: true },
   { id: 'about', label: 'About Us' },
   { id: 'robot', label: 'Robot' },
-  { id: 'awards', label: 'Awards' },
+  { id: 'awards', label: 'Awards', enabled: true },
   { id: 'contact', label: 'Contact' },
 ]

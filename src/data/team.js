@@ -6,6 +6,62 @@
 // the card will show it automatically.
 // `draft: true` marks suggested wording the team should confirm or personalize.
 
+/* ==========================================================================
+   EDITABLE PAGE CONTENT: everything on the Meet the Team page that isn't a
+   member record lives here. Skills, fun facts and stats are placeholders.
+   ========================================================================== */
+export const TEAM_PAGE = {
+  intro: 'Behind every robot is a team of people bringing different skills and ideas together. Get to know the students who design, build, program, and share what we do at Overdrive.',
+
+  // One line under the leadership cards. Empty string hides it.
+  seasonGoal: '',
+
+  // One sentence beside each subteam heading.
+  subteams: {
+    building: 'Turns finished designs into a working robot: assembly, fit, and mechanical fixes.',
+    programming: 'Writes the autonomous routines, driver controls, and vision code that run the robot.',
+    cad: 'Models every part and assembly before anything is cut or built.',
+    outreach: 'Runs events, social media, sponsorships, and team finances.',
+  },
+
+  // 2–3 short tags per member, keyed by member id. Placeholders drawn from each description.
+  skills: {
+    'vrishank-e': ['Team management', 'Sponsorships'],
+    'ishaan-t': ['Robot design', 'Workflow', 'Driving'],
+    'ansika-j': ['Assembly', 'Mechanical fixes'],
+    'yasho-c': ['Assembly', 'Testing'],
+    'sid-c': ['Assembly', 'Troubleshooting'],
+    'pranav-v': ['Autonomous', 'TeleOp', 'Driving'],
+    'kavin-j': ['Computer vision', 'Path planning'],
+    'ishaan-w': ['TeleOp', 'Sensors'],
+    'adrit-c': ['Simulation', 'Mechanism design'],
+    'vrushank-s': ['CAD modeling', 'Part design'],
+    'shanyu-n': ['Assemblies', 'Layout'],
+    'jayant-r': ['Partnerships', 'Nonprofit'],
+    'ishan-k': ['Social media', 'Video'],
+    'vibha-b': ['Events', 'Community'],
+    'saurish-k': ['Finance', 'Documentation'],
+  },
+
+  // Optional one-liners, keyed by member id. Missing or empty = not shown.
+  funFacts: {
+    // 'kavin-j': 'Example: has rebuilt the same intake four times.',
+  },
+
+  // Closing strip. Replace the dashes with real numbers.
+  stats: [
+    { value: '15', label: 'Members' },
+    { value: '7+', label: 'Years competing' },
+    { value: '—', label: 'Awards' },
+    { value: '—', label: 'Outreach hours' },
+  ],
+
+  cta: [
+    { label: 'Join the team', href: '#contact', primary: true },
+    { label: 'Sponsor us', href: '#contact' },
+  ],
+}
+
 export const SCHOOL = 'Independence High School'
 
 export const LEADERS = [

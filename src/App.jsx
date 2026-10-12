@@ -3,6 +3,7 @@ import FolderNav from './components/FolderNav.jsx'
 import Intro from './components/Intro.jsx'
 import LogoPanel from './components/LogoPanel.jsx'
 import TeamPage from './components/TeamPage.jsx'
+import AwardsPage from './components/AwardsPage.jsx'
 import { Champions, Engineering, Footer, Hero, Identity, Sustainability } from './components/Sections.jsx'
 import { updateProgress } from './scrollStore.js'
 
@@ -12,10 +13,11 @@ const shouldIntro = () => {
   } catch { return false }
 }
 
-// Hash routes: #home (default), #team, and #team-<subteam> to land on a section.
+// Hash routes: #home (default), #awards, #team, and #team-<subteam> to land on a section.
 const parseHash = () => {
   const h = location.hash.slice(1)
   if (h === 'team' || h.startsWith('team-')) return { page: 'team', sub: h.slice(5) }
+  if (h === 'awards') return { page: 'awards', sub: '' }
   return { page: 'home', sub: '' }
 }
 
@@ -36,7 +38,8 @@ export default function App() {
     const el = scroller.current
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
     const target = sub && document.getElementById(`team-${sub}`)
-    if (target) el.scrollTo({ top: target.offsetTop - 56, behavior: reduce ? 'auto' : 'smooth' })
+    // scroll-margin-top on the section clears both sticky bars
+    if (target) target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
     else el.scrollTo({ top: 0, behavior: 'auto' })
   }, [page, sub])
 
@@ -63,13 +66,15 @@ export default function App() {
   }, [])
 
   return (
-    <div className={`app${page === 'team' ? ' app--wide' : ''}`}>
+    <div className={`app${page !== 'home' ? ' app--wide' : ''}`}>
       <div className="left" ref={scroller} tabIndex={-1}>
         <div className="left__inner">
           <FolderNav page={page} onHome={toTop} />
           <main>
             {page === 'team' ? (
               <TeamPage />
+            ) : page === 'awards' ? (
+              <AwardsPage />
             ) : (
               <>
                 <Hero ready={!intro} />
