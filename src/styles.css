@@ -95,14 +95,35 @@ html, body { overflow: hidden; }
 .eng .eyebrow { color: #cf95de; }
 .eng .lead { color: #b9b3bd; }
 
-/* ---------- Meet the Team (full width: no logo panel on this page) ---------- */
-/* Spacing on this page sticks to an 8px scale (.5rem steps). */
+/* ---------- Shared page furniture (Team, Awards, Alumni) ---------- */
 .app--wide .left { right: 0; }
-.team { --pad: clamp(20px, 4.5vw, 72px); --subnav-h: 48px; --mute: #4a4955; }
 .wrap { max-width: 1240px; margin-inline: auto; padding-inline: var(--pad); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.team__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(32px, 5vw, 56px); }
-.team__title { font-size: clamp(2.8rem, 7vw, 6.2rem); font-weight: 800; letter-spacing: -.045em; line-height: .92; }
+/* outlined display title: lavender fill, thick dark purple stroke, hard offset shadow (.outlined is defined with the pennant) */
+.display-title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
+/* stats strip */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
+.stats > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: .5rem; padding: 1.5rem; border-left: 1px solid var(--line); }
+.stats > div:first-child { border-left: 0; padding-left: 0; }
+.stats dd { margin: 0; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; letter-spacing: -.04em; line-height: 1; }
+.stats dt { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+/* buttons */
+.cta { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
+.btn { display: inline-flex; align-items: center; height: 48px; padding: 0 1.5rem; border: 1px solid var(--ink); border-radius: 2px; font-size: .9375rem; font-weight: 700; transition: background-color .18s ease-out, color .18s ease-out; }
+.btn:hover { background: var(--ink); color: #fff; }
+.btn--primary { background: var(--ink); color: #fff; }
+.btn--primary:hover { background: #fff; color: var(--ink); }
+/* year bar: four squares + "Year N", coloured by the nearest --c */
+.yearbar { display: inline-flex; align-items: center; gap: .5rem; }
+.yearbar__pips { display: inline-flex; gap: 4px; }
+.yearbar__pips i { width: 8px; height: 8px; border: 1px solid var(--c, var(--purple)); }
+.yearbar__pips i.on { background: var(--c, var(--purple)); }
+
+/* ---------- Meet the Team ---------- */
+/* Spacing sticks to an 8px scale. Panels, pennants, title and motion match the Awards page. */
+.team { --pad: clamp(20px, 4.5vw, 72px); --subnav-h: 48px; --mute: #3d3c47; }
+.team__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(32px, 5vw, 48px); }
+.team__stats > div:nth-child(n + 2) { border-left: 1px solid var(--line); }
 .sn--all { --c: var(--ink); }
 .sn--building, .sub--building, .st--building { --c: #9a5420; --tint: #fcf7f0; }
 .sn--programming, .sub--programming, .st--programming { --c: #7d2f93; --tint: #f9f4fb; }
@@ -110,7 +131,7 @@ html, body { overflow: hidden; }
 .sn--outreach, .sub--outreach, .st--outreach { --c: #2f5d3a; --tint: #f1f6ee; }
 
 /* sticky subteam bar, directly under the folder tabs */
-.subnav { position: sticky; top: var(--nav-h); z-index: 25; background: #fff; border-bottom: 1px solid var(--line); }
+.subnav { position: sticky; top: var(--nav-h); z-index: 25; margin-top: clamp(32px, 5vw, 48px); background: #fff; border-bottom: 1px solid var(--line); }
 .subnav__list { display: flex; gap: 32px; list-style: none; height: var(--subnav-h); overflow-x: auto; scrollbar-width: none; }
 .subnav__list::-webkit-scrollbar { display: none; }
 .subnav__list li { flex: none; }
@@ -119,32 +140,32 @@ html, body { overflow: hidden; }
 .subnav__link[aria-current] { color: var(--ink); border-bottom-color: var(--c); }
 .subnav__link:focus-visible { outline-offset: -2px; }
 
-.team__label { font-size: .9rem; font-weight: 600; color: var(--purple); margin-bottom: 1.5rem; }
-.leaders { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(48px, 7vw, 88px); }
+/* section banner: a pennant in the section colour, with a description and count beneath */
+.tbanner { margin-bottom: 2rem; }
+.tbanner__pennant.pennant { --pennant-fill: var(--c, var(--purple)); padding: .75rem 4.5rem .875rem; font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+.tbanner__about { margin-top: 1rem; max-width: 60ch; font-size: 1rem; line-height: 1.6; color: var(--mute); }
+.tbanner__count { margin-left: .75rem; font-size: .875rem; font-weight: 700; color: var(--c, var(--purple)); }
+
+.leaders { --c: var(--purple); padding-top: clamp(40px, 6vw, 64px); padding-bottom: clamp(48px, 7vw, 80px); }
 .leaders__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 2rem; }
-.goal { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .9375rem; line-height: 1.6; max-width: 72ch; }
+.goal { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.6; max-width: 72ch; }
 .goal span { font-weight: 700; color: var(--purple); margin-right: .5rem; }
 
-.sub { position: relative; isolation: isolate; background: var(--tint); padding: clamp(40px, 6vw, 80px) 0; scroll-margin-top: calc(var(--nav-h) + var(--subnav-h)); }
+.sub { position: relative; isolation: isolate; background: var(--tint); padding: clamp(40px, 6vw, 72px) 0; scroll-margin-top: calc(var(--nav-h) + var(--subnav-h)); }
 /* line-art pattern sits behind everything; the outer layer holds the fade mask, the inner one drifts */
 .sub__pat { position: absolute; inset: 0; z-index: -1; overflow: hidden; mask-image: radial-gradient(120% 100% at 100% 0%, #000 20%, rgba(0, 0, 0, .3)); opacity: .8; pointer-events: none; }
 .sub__pat i { position: absolute; inset: 0 0 0 calc(var(--ps) * -1); background-image: var(--pat); background-size: var(--ps); }
-.sub__head { display: grid; grid-template-columns: auto minmax(0, 46ch); justify-content: space-between; align-items: end; gap: 1rem 3rem; padding-bottom: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--c); }
-.sub__title { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--c); }
-.sub__about { font-size: .9375rem; line-height: 1.6; color: var(--mute); }
-.sub__count { display: block; margin-top: .25rem; font-size: .8125rem; font-weight: 600; }
-.sub__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.sub__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 1.5rem; }
 .sub__grid--four { grid-template-columns: repeat(4, 1fr); }
 
-.member { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); transition: border-color .18s ease-out, transform .18s ease-out; }
-@media (hover: hover) {
-  .member:hover { transform: translateY(-2px); border-color: var(--c, var(--purple)); }
-}
-/* subteam cards share row tracks with their neighbours, so titles, names, meta and tags sit on common lines */
-.sub .member { display: grid; grid-row: span 8; grid-template-rows: subgrid; row-gap: 0; }
+/* member card: the Awards panel (3px outline, 12px radius, hard 4px shadow) with a subteam-coloured top bar */
+.member { position: relative; display: flex; flex-direction: column; overflow: hidden; border: 3px solid var(--alum-line); border-radius: 12px; background: #fff; box-shadow: 0 4px 0 var(--alum-line); }
+.member::before { content: ''; position: absolute; z-index: 2; inset: 0 0 auto; height: 6px; background: var(--c); box-shadow: inset 0 -2px 0 rgba(255, 255, 255, .45); pointer-events: none; }
+.member--lead::before { height: 10px; }
+/* subteam cards share row tracks with their neighbours, so names, roles and tags sit on common lines */
+.sub .member { display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: 0; }
 .sub .member__body { display: contents; }
 .sub .member__body > * { padding-inline: 1.5rem; }
-.member--lead::before { content: ''; position: absolute; z-index: 1; top: -1px; left: -1px; right: -1px; height: 3px; background: var(--c); }
 
 .portrait { position: relative; aspect-ratio: 1 / 1; background: #f1eef3; overflow: hidden; }
 .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
@@ -154,45 +175,36 @@ html, body { overflow: hidden; }
 .portrait__ph small { font-size: .75rem; }
 
 .member__body { display: flex; flex-direction: column; flex: 1; padding: 1rem 1.5rem 1.5rem; }
-.member__title { min-height: 1.5rem; padding-top: 1rem; font-size: .875rem; font-weight: 700; line-height: 1.5rem; color: var(--c, var(--purple)); }
-.lead-label { display: inline-block; vertical-align: top; padding: 0 .5rem; border-radius: 2px; background: var(--c); color: #fff; font-size: .6875rem; line-height: 1.5rem; letter-spacing: .08em; text-transform: uppercase; }
-.member__name { padding-top: .5rem; font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
-.member__meta { padding-top: .5rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
-.member__year { display: flex; align-items: center; gap: .5rem; padding-top: .25rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
-.pips { display: inline-flex; gap: 4px; }
-.pips i { width: 8px; height: 8px; border: 1px solid var(--c, var(--purple)); }
-.pips i.on { background: var(--c, var(--purple)); }
-.member__desc { padding-top: 1rem; font-size: .9375rem; line-height: 1.6; color: var(--ink); }
+.member__name { padding-top: 1rem; font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.3; }
+.member__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; padding-top: .25rem; font-size: .9375rem; line-height: 1.5; color: var(--mute); }
+.member__role { font-weight: 700; color: var(--c); }
+.lead-badge { display: inline-block; padding: 0 .5rem; border-radius: 4px; background: var(--c); color: #fff; font-size: .6875rem; font-weight: 800; line-height: 1.5rem; letter-spacing: .08em; text-transform: uppercase; }
+.member__year { padding-top: .5rem; font-size: .9375rem; line-height: 1.5; color: var(--mute); }
+.member__desc { padding-top: 1rem; font-size: 1rem; line-height: 1.6; color: var(--ink); }
 .tags { display: flex; flex-wrap: wrap; align-content: flex-start; gap: .5rem; list-style: none; padding-inline: 0; padding-top: 1rem; padding-bottom: 1.5rem; }
-.tags li { padding: .25rem .5rem; border: 1px solid #cfcbd6; border-radius: 2px; font-size: .75rem; font-weight: 600; line-height: 1.25; }
-.member__fact { padding-bottom: 1.5rem; font-size: .8125rem; line-height: 1.5; color: var(--mute); }
+.tags li { padding: .25rem .5rem; border: 1px solid #b9b4c2; border-radius: 2px; font-size: .8125rem; font-weight: 600; line-height: 1.25; }
+.member__fact { padding-bottom: 1.5rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
 .member__fact span { font-weight: 700; color: var(--ink); margin-right: .25rem; }
 
-/* captain + vice captain: wider, roomier, larger name */
-.member--leader { flex-direction: row; --c: var(--purple); }
-.member--leader .portrait { flex: 0 0 38%; aspect-ratio: auto; min-height: 280px; }
+/* captain + vice captain: sized up like the Awards state-title card */
+.member--leader { flex-direction: row; background: var(--tint); }
+.member--leader .portrait { flex: 0 0 38%; aspect-ratio: auto; min-height: 300px; }
 .member--leader .member__body { padding: 1.5rem 2rem 2rem; }
-.member--leader .member__title { padding-top: 0; }
-.member--leader .member__name { font-size: 1.75rem; }
+.member--leader .member__name { padding-top: .5rem; font-size: 1.75rem; }
+.member--leader .member__desc { font-size: 1.0625rem; }
 .member--leader .tags { margin-top: auto; padding-bottom: 0; }
 .member--leader .member__fact { padding: 1rem 0 0; }
 
-/* closing block: numbers strip + calls to action */
-.close { padding-top: clamp(48px, 7vw, 88px); padding-bottom: clamp(48px, 7vw, 88px); }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
-.stats > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: .5rem; padding: 1.5rem; border-left: 1px solid var(--line); }
-.stats > div:first-child { border-left: 0; padding-left: 0; }
-.stats dd { margin: 0; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
-.stats dt { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
-.cta { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
-.btn { display: inline-flex; align-items: center; height: 48px; padding: 0 1.5rem; border: 1px solid var(--ink); border-radius: 2px; font-size: .9375rem; font-weight: 700; transition: background-color .18s ease-out, color .18s ease-out; }
-.btn:hover { background: var(--ink); color: #fff; }
-.btn--primary { background: var(--ink); color: #fff; }
-.btn--primary:hover { background: #fff; color: var(--ink); }
+.team__close { padding-top: clamp(48px, 7vw, 80px); padding-bottom: clamp(48px, 7vw, 88px); }
+.team__ask { padding-top: 1.5rem; border-top: 1px solid var(--ink); font-size: clamp(1.25rem, 2.2vw, 1.75rem); font-weight: 800; letter-spacing: -.02em; }
+.team__close .cta { margin-top: 1.5rem; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .team--anim .member { opacity: 0; translate: 0 12px; transition: opacity .5s ease-out, translate .5s cubic-bezier(.2, .7, .2, 1), border-color .18s ease-out, transform .18s ease-out; }
-  .team--anim .member.is-in { opacity: 1; translate: none; }
+  .team--anim .member { opacity: 0; scale: .96; translate: 0 12px; transition: opacity .45s ease-out var(--delay, 0s), scale .45s cubic-bezier(.2, .7, .2, 1) var(--delay, 0s), translate .45s cubic-bezier(.2, .7, .2, 1) var(--delay, 0s), transform .15s ease-out, box-shadow .15s ease-out; }
+  .team--anim .member[data-in] { opacity: 1; scale: none; translate: none; }
+  @media (hover: hover) {
+    .member:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--alum-line); }
+  }
   .sub__pat i { animation: drift 90s linear infinite; will-change: transform; }
   @keyframes drift { to { transform: translateX(var(--ps)); } }
 }
@@ -200,9 +212,7 @@ html, body { overflow: hidden; }
 /* ---------- Awards: the trophy road ---------- */
 .awards { overflow-x: clip; --pad: clamp(20px, 4.5vw, 72px); --lane: 112px; --mute: #4a4955; --gold: #d4a72c; --gold-dark: #8a6a12; --silver: #b9bcc4; }
 .awards__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(32px, 5vw, 48px); }
-.awards__title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
 .awards .awards__stats > div:nth-child(n + 2) { border-left: 1px solid var(--line); }
-.awards__stats dd { font-weight: 900; }
 .tl { padding-top: clamp(40px, 6vw, 64px); padding-bottom: clamp(48px, 7vw, 88px); }
 .tl__road { position: relative; isolation: isolate; }
 
@@ -351,7 +361,6 @@ html, body { overflow: hidden; }
 .alumni { --pad: clamp(20px, 4.5vw, 72px); --c: var(--alum-line); --tint: var(--lav); --mute: #4a4955; }
 .outlined { color: var(--lav); -webkit-text-stroke: 6px var(--alum-line); paint-order: stroke fill; text-shadow: 0 6px 0 var(--alum-line); font-weight: 900; letter-spacing: -.02em; }
 .alumni__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(40px, 6vw, 72px); }
-.alumni__title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
 
 
 
@@ -378,7 +387,7 @@ html, body { overflow: hidden; }
   background:
     linear-gradient(var(--alum-line), var(--alum-line)) 45px 0 / 3px 100% no-repeat,
     linear-gradient(var(--alum-line), var(--alum-line)) calc(100% - 45px) 0 / 3px 100% no-repeat,
-    linear-gradient(var(--purple), var(--purple)) center / calc(100% - 96px) 100% no-repeat,
+    linear-gradient(var(--pennant-fill, var(--purple)), var(--pennant-fill, var(--purple))) center / calc(100% - 96px) 100% no-repeat,
     var(--stripes);
 }
 .pennant .outlined { -webkit-text-stroke-width: 4px; text-shadow: 0 3px 0 var(--alum-line); }
@@ -403,9 +412,6 @@ html, body { overflow: hidden; }
 .alum__name { padding-top: 1rem; font-size: 1.375rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
 .alum__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1rem; padding-top: .25rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
 .alum__role { font-weight: 600; color: var(--ink); }
-.alum__years { display: inline-flex; align-items: center; gap: .5rem; }
-.alum .pips i { border-color: var(--c); }
-.alum .pips i.on { background: var(--c); }
 .alum__college { display: flex; align-items: center; gap: 1rem; padding-top: 1rem; }
 .alum__college p { min-width: 0; line-height: 1.4; }
 .alum__school { display: block; font-size: .9375rem; font-weight: 700; }
@@ -495,7 +501,6 @@ html, body { overflow: hidden; }
   .season__logo { max-width: 26px; max-height: 26px; }
   .award--state .medal { width: 80px; height: 80px; }
   .award--state .medal img { max-width: 64px; max-height: 50px; }
-  .sub__head { grid-template-columns: 1fr; align-items: start; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .stats > div:nth-child(odd) { border-left: 0; padding-left: 0; }
   .stats > div:nth-child(n + 3) { border-top: 1px solid var(--line); }
@@ -515,6 +520,7 @@ html, body { overflow: hidden; }
   .sub__pat { opacity: .55; }
   .subnav__list { gap: 24px; }
   .member--leader { flex-direction: column; }
+  .tbanner__pennant.pennant { padding-inline: 3.75rem; }
   .member--leader .member__body { padding: 1rem 1.5rem 1.5rem; }
   .member--leader .member__name { font-size: 1.5rem; }
   .member--leader .portrait { flex: none; aspect-ratio: 1 / 1; min-height: 0; }

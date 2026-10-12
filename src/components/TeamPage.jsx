@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { LEADERS, SUBTEAMS, TEAM_PAGE } from '../data/team.js'
+import { SEASONS } from '../data/awards.js'
+import YearBar from './ui/YearBar.jsx'
+import Pennant from './ui/Pennant.jsx'
+import StatsStrip from './ui/StatsStrip.jsx'
 
 const motionOK = () => matchMedia('(prefers-reduced-motion: no-preference)').matches
 
@@ -39,32 +43,23 @@ function Portrait({ member }) {
   )
 }
 
-function Years({ year }) {
-  const n = parseInt(year, 10) || 0
-  return (
-    <p className="member__year">
-      <span className="pips" aria-hidden>
-        {[1, 2, 3, 4].map((i) => <i key={i} className={i <= n ? 'on' : ''} />)}
-      </span>
-      Year {n}<span className="sr-only"> on the team</span>
-    </p>
-  )
-}
-
 function MemberCard({ member, leader }) {
-  const meta = [member.grade, member.school].filter(Boolean).join(' · ')
   const skills = TEAM_PAGE.skills[member.id] || []
   const fact = TEAM_PAGE.funFacts[member.id]
   const lead = !leader && Boolean(member.title)
+  const meta = [member.grade, member.school].filter(Boolean).join(' · ')
   return (
     <article className={`member${leader ? ' member--leader' : ''}${lead ? ' member--lead' : ''}`}>
       <Portrait member={member} />
       <div className="member__body">
-        {/* rendered even when empty so names line up across a row */}
-        <p className="member__title">{lead ? <span className="lead-label">{member.title}</span> : member.title}</p>
         <h3 className="member__name">{member.name}</h3>
-        <p className="member__meta">{meta}</p>
-        <Years year={member.year} />
+        {/* role line is always rendered (it may hold only grade and school) so rows line up */}
+        <p className="member__meta">
+          {lead && <span className="lead-badge">{member.title}</span>}
+          {leader && <span className="member__role">{member.title}</span>}
+          <span>{meta}</span>
+        </p>
+        <p className="member__year"><YearBar n={parseInt(member.year, 10) || 0} /></p>
         <p className="member__desc">{member.description}</p>
         <ul className="tags" aria-label="Skills">
           {skills.map((t) => <li key={t}>{t}</li>)}
@@ -74,6 +69,15 @@ function MemberCard({ member, leader }) {
     </article>
   )
 }
+
+// Header stats, computed from the data.
+const MEMBERS = LEADERS.length + SUBTEAMS.reduce((n, s) => n + s.members.length, 0)
+const STATS = [
+  { label: 'Members', value: MEMBERS },
+  { label: 'Subteams', value: SUBTEAMS.length },
+  { label: 'Subteam leads', value: SUBTEAMS.reduce((n, s) => n + s.members.filter((m) => m.title).length, 0) },
+  { label: 'Seasons competed', value: SEASONS.length },
+]
 
 const NAV = [{ id: 'all', title: 'All' }, ...SUBTEAMS]
 
@@ -103,24 +107,20 @@ export default function TeamPage() {
     }
   }, [active])
 
-  // Cards fade up once as they enter; each batch staggers by 60ms. Skipped entirely with reduced motion.
+  // Cards rise in once, 60ms apart within each batch (same motion as the Awards page). Skipped with reduced motion.
   useEffect(() => {
     if (!motionOK()) return
     const el = root.current
-    const cards = [...el.querySelectorAll('.member')]
     el.classList.add('team--anim')
     const io = new IntersectionObserver((entries) => {
       entries.filter((e) => e.isIntersecting).forEach((e, i) => {
-        e.target.style.transitionDelay = `${i * 60}ms`
-        e.target.classList.add('is-in')
+        e.target.style.setProperty('--delay', `${i * 60}ms`)
+        e.target.dataset.in = ''
         io.unobserve(e.target)
       })
     }, { root: el.closest('.left'), rootMargin: '0px 0px -8% 0px' })
-    cards.forEach((c) => io.observe(c))
-    // drop the delay once the entrance is over so hover responds immediately
-    const clear = (e) => { if (e.propertyName === 'opacity') e.target.style.transitionDelay = '' }
-    el.addEventListener('transitionend', clear)
-    return () => { io.disconnect(); el.removeEventListener('transitionend', clear) }
+    el.querySelectorAll('.member').forEach((c) => io.observe(c))
+    return () => io.disconnect()
   }, [])
 
   const go = (e, id) => {
@@ -134,9 +134,10 @@ export default function TeamPage() {
   return (
     <div className="team" ref={root}>
       <header className="team__head wrap">
-        <h1 className="team__title">Meet the Team</h1>
+        <h1 className="outlined display-title">Meet the Team</h1>
         <p className="lead team__intro">{TEAM_PAGE.intro}</p>
       </header>
+      <div className="wrap"><StatsStrip items={STATS} className="team__stats" /></div>
 
       <nav className="subnav" aria-label="Subteams">
         <ul className="subnav__list wrap" ref={bar}>
@@ -156,7 +157,10 @@ export default function TeamPage() {
       </nav>
 
       <section id="team-leadership" className="leaders wrap" aria-labelledby="leaders-h">
-        <h2 id="leaders-h" className="team__label">Leadership</h2>
+        <div className="tbanner">
+          <Pennant id="leaders-h" className="tbanner__pennant"><span className="outlined">Leadership</span></Pennant>
+          <p className="tbanner__about">Captain and vice captain<span className="tbanner__count">{LEADERS.length} members</span></p>
+        </div>
         <div className="leaders__grid">
           {LEADERS.map((m) => <MemberCard key={m.id} member={m} leader />)}
         </div>
@@ -169,13 +173,13 @@ export default function TeamPage() {
         <section key={s.id} id={`team-${s.id}`} data-sub={s.id} className={`sub sub--${s.id}`} aria-labelledby={`${s.id}-h`}>
           <div className="sub__pat" aria-hidden><i /></div>
           <div className="wrap">
-            <header className="sub__head">
-              <h2 id={`${s.id}-h`} className="sub__title">{s.title}</h2>
-              <p className="sub__about">
+            <div className="tbanner">
+              <Pennant id={`${s.id}-h`} className="tbanner__pennant"><span className="outlined">{s.title}</span></Pennant>
+              <p className="tbanner__about">
                 {TEAM_PAGE.subteams[s.id]}
-                <span className="sub__count">{s.members.length} members</span>
+                <span className="tbanner__count">{s.members.length} members</span>
               </p>
-            </header>
+            </div>
             <div className={`sub__grid${s.members.length === 4 ? ' sub__grid--four' : ''}`}>
               {s.members.map((m) => <MemberCard key={m.id} member={m} />)}
             </div>
@@ -183,12 +187,8 @@ export default function TeamPage() {
         </section>
       ))}
 
-      <section className="close wrap" aria-label="Team at a glance">
-        <dl className="stats">
-          {TEAM_PAGE.stats.map((st) => (
-            <div key={st.label}><dt>{st.label}</dt><dd>{st.value}</dd></div>
-          ))}
-        </dl>
+      <section className="team__close wrap" aria-labelledby="join-h">
+        <p id="join-h" className="team__ask">Want to join?</p>
         <div className="cta">
           {TEAM_PAGE.cta.map((c) => (
             <a key={c.label} href={c.href} className={`btn${c.primary ? ' btn--primary' : ''}`}>{c.label}</a>

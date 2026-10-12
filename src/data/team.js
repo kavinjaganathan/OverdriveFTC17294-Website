@@ -11,7 +11,7 @@
 
 /* ==========================================================================
    EDITABLE PAGE CONTENT: everything on the Meet the Team page that isn't a
-   member record lives here. Skills, fun facts and stats are placeholders.
+   member record lives here. Skill tags are placeholders; the header stats are computed.
    ========================================================================== */
 export const TEAM_PAGE = {
   intro: 'Behind every robot is a team of people bringing different skills and ideas together. Get to know the students who design, build, program, and share what we do at Overdrive.',
@@ -21,13 +21,14 @@ export const TEAM_PAGE = {
 
   // One sentence beside each subteam heading.
   subteams: {
-    building: 'Turns finished designs into a working robot: assembly, fit, and mechanical fixes.',
+    building: 'Turns CAD into a robot that survives a match.',
     programming: 'Writes the autonomous routines, driver controls, and vision code that run the robot.',
     cad: 'Models every part and assembly before anything is cut or built.',
     outreach: 'Runs events, social media, sponsorships, and team finances.',
   },
 
-  // 2–3 short tags per member, keyed by member id. Placeholders drawn from each description.
+  // 2–3 short tags per member, keyed by member id.
+  // PLACEHOLDERS drawn from each description: replace them with each member's real tools and skills.
   skills: {
     'vrishank-e': ['Team management', 'Sponsorships'],
     'ishaan-t': ['Robot design', 'Workflow', 'Driving'],
@@ -46,18 +47,10 @@ export const TEAM_PAGE = {
     'saurish-k': ['Finance', 'Documentation'],
   },
 
-  // Optional one-liners, keyed by member id. Missing or empty = not shown.
+  // Optional one-line fun facts, keyed by member id. Missing or empty = not shown.
   funFacts: {
     // 'kavin-j': 'Example: has rebuilt the same intake four times.',
   },
-
-  // Closing strip. Replace the dashes with real numbers.
-  stats: [
-    { value: '15', label: 'Members' },
-    { value: '7+', label: 'Years competing' },
-    { value: '—', label: 'Awards' },
-    { value: '—', label: 'Outreach hours' },
-  ],
 
   cta: [
     { label: 'Join the team', href: '#contact', primary: true },
@@ -86,7 +79,7 @@ export const SUBTEAMS = [
     id: 'building', title: 'Building',
     members: [
       {
-        id: 'ansika-j', name: 'Ansika J.', title: 'Build Lead', grade: 'Senior', school: SCHOOL, year: '4th',
+        id: 'ansika-j', photo: '/team/ansika.png', focus: '50% 30%', zoom: 1.3, name: 'Ansika J.', title: 'Build Lead', grade: 'Senior', school: SCHOOL, year: '4th',
         description: 'Leads robot assembly and works with the engineering team to refine components, improve fit, and resolve mechanical issues.',
       },
       {

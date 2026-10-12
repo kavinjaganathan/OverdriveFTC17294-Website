@@ -1,6 +1,8 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ALUMNI, COLLEGES, PREVIEW_UNCONFIRMED } from 'virtual:alumni'
 import { CONTACT } from '../config.js'
+import YearBar from './ui/YearBar.jsx'
+import Pennant from './ui/Pennant.jsx'
 
 const motionOK = () => matchMedia('(prefers-reduced-motion: no-preference)').matches
 const SUBTEAMS = ['Building', 'Programming', 'CAD', 'Outreach']
@@ -48,17 +50,6 @@ function ClassBadge({ year }) {
   )
 }
 
-function Years({ n }) {
-  return (
-    <span className="alum__years">
-      <span className="pips" aria-hidden>
-        {[1, 2, 3, 4].map((i) => <i key={i} className={i <= n ? 'on' : ''} />)}
-      </span>
-      Year {n}
-    </span>
-  )
-}
-
 function AlumCard({ a, cardRef }) {
   const [open, setOpen] = useState(false)
   const frontBtn = useRef(null)
@@ -92,7 +83,7 @@ function AlumCard({ a, cardRef }) {
           {/* empty slots stay in the DOM (with no text) so later rows line up across cards */}
           <p className="alum__meta">
             {a.role && <span className="alum__role">{a.role}</span>}
-            {hasYears && <Years n={a.yearsOnTeam} />}
+            {hasYears && <YearBar n={a.yearsOnTeam} />}
           </p>
           <div className="alum__college">
             <Seal college={college} />
@@ -180,7 +171,7 @@ export default function AlumniPage() {
   return (
     <div className="alumni" ref={root}>
       <header className="alumni__head wrap">
-        <h1 className="outlined alumni__title">Alumni</h1>
+        <h1 className="outlined display-title">Alumni</h1>
         <p className="lead">Seven seasons of builders. Here's where they went next.</p>
       </header>
 
@@ -205,7 +196,7 @@ export default function AlumniPage() {
             return (
               <section key={y} className="aclass wrap" aria-labelledby={`class-${y}`}>
                 <div className="aclass__head">
-                  <h2 id={`class-${y}`} className="pennant"><span className="outlined">Class of {y}</span></h2>
+                  <Pennant id={`class-${y}`}><span className="outlined">Class of {y}</span></Pennant>
                   <p className="aclass__count">{people.length} {people.length === 1 ? 'alum' : 'alumni'}</p>
                 </div>
                 <div className="aclass__grid">

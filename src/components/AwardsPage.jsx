@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AWARDS_INTRO, SEASONS, TROPHIES } from '../data/awards.js'
+import Pennant from './ui/Pennant.jsx'
+import StatsStrip from './ui/StatsStrip.jsx'
 
 const motionOK = () => matchMedia('(prefers-reduced-motion: no-preference)').matches
 
@@ -164,13 +166,11 @@ export default function AwardsPage() {
   return (
     <div className="awards" ref={root}>
       <header className="awards__head wrap">
-        <h1 className="outlined awards__title">Our Awards</h1>
+        <h1 className="outlined display-title">Our Awards</h1>
         <p className="lead">{AWARDS_INTRO}</p>
       </header>
       <div className="wrap">
-        <dl className="stats awards__stats">
-          {STATS.map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
-        </dl>
+        <StatsStrip items={STATS} className="awards__stats" />
       </div>
 
       {/* fixed corner badge: every logo is mounted (so all are preloaded); only the active one shows */}
@@ -208,10 +208,10 @@ export default function AwardsPage() {
                 <li key={s.season} className={`season season--${s.game.toLowerCase().replace(/\s+/g, '-')}`} aria-labelledby={`season-${si}`}>
                   <span className="season__pat" aria-hidden />
                   <div className="season__head">
-                    <h2 id={`season-${si}`} className="pennant season__pennant">
+                    <Pennant id={`season-${si}`} className="season__pennant">
                       <span className="season__logo-plate"><SeasonLogo season={s} className="season__logo" /></span>
                       <span className="outlined">{s.season}</span>
-                    </h2>
+                    </Pennant>
                     <p className="season__game">
                       {s.game}{s.note ? ` · ${s.note}` : ''}
                       <span className="season__count">{total} {total === 1 ? 'award' : 'awards'}</span>

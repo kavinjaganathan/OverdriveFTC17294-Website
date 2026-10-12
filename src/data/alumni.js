@@ -26,6 +26,7 @@ export const COLLEGES = {
   'duke': { name: 'Duke University', shortName: 'Duke', logo: '/colleges/duke.svg', primaryColor: '#012169', monogram: 'DU' },
 }
 
+// yearsOnTeam set to 3 as a default for alumni whose tenure wasn't recorded — confirm with each person and correct.
 export const ALUMNI = [
   // ---- Class of 2026 ----
   {
@@ -37,14 +38,14 @@ export const ALUMNI = [
   },
   {
     id: 'pm', name: 'Pranav Mutthineni', displayName: 'Pranav M.', classYear: 2026,
-    role: '', subteam: '', yearsOnTeam: null, // CHECK: Overdrive role not listed on profile
+    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role not listed on profile
     college: 'duke', major: 'Electrical & Computer Engineering',
     summary: 'Studying electrical and computer engineering at Duke. He interned at the UTD NanoTech Institute researching thermally driven polymer artificial muscles, and has worked as an engineer at Venus Tech since 2023.',
     advice: '', photo: '', hideCollege: false, confirmed: false,
   },
   {
     id: 'snk', name: 'Subanth Nanda Kumar', displayName: 'Subanth N.', classYear: 2026,
-    role: '', subteam: '', yearsOnTeam: null, // CHECK: Overdrive role unknown
+    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role unknown
     college: 'ut-austin', major: 'Computer Science',
     summary: 'Studying computer science at UT Austin.',
     advice: '', photo: '', hideCollege: false, confirmed: false,
@@ -61,21 +62,21 @@ export const ALUMNI = [
   },
   {
     id: 'sk', name: 'Srinanditha Kamath', displayName: 'Srinanditha K.', classYear: 2025,
-    role: '', subteam: '', yearsOnTeam: null, // CHECK: Overdrive role not listed on profile
+    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role not listed on profile
     college: 'ut-austin', major: 'Computer Science & Mathematics',
     summary: 'Studying CS and math at UT Austin with a robotics minor. Through the Freshman Research Initiative she built a smart walker with real-time obstacle avoidance using OpenCV and time-of-flight sensors on a Jetson Nano, and she\'s a TA and a technical officer for Women in Computer Science.',
     advice: '', photo: '', hideCollege: false, confirmed: false,
   },
   {
     id: 'ak', name: 'Adit Khandelwal', displayName: 'Adit K.', classYear: 2025,
-    role: '', subteam: '', yearsOnTeam: null, // CHECK: Overdrive role not listed on profile
+    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role not listed on profile
     college: 'ut-austin', major: 'ECE Honors + Canfield Business Honors',
     summary: 'In the ECE and Canfield Business Honors programs at UT Austin. He researches at the CDUS Lab and works as a hardware engineer on Texas Aerial Robotics\' Raytheon team, using CAD and ROS.',
     advice: '', photo: '', hideCollege: false, confirmed: false,
   },
   {
     id: 'arm', name: 'Aarush Malepatal', displayName: 'Aarush M.', classYear: 2025,
-    role: '', subteam: '', yearsOnTeam: null, // CHECK: Overdrive role not listed on profile
+    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role not listed on profile
     college: 'ut-dallas', major: 'Finance',
     summary: 'Studying finance at UT Dallas with an interest in financial analysis and consulting. He managed organizational finances as a marketing manager with UNICEF and co-founded a web development project building sites for small businesses and school clubs.',
     advice: '', photo: '', hideCollege: false, confirmed: false,
