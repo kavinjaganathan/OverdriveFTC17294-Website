@@ -85,7 +85,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className={`app${page !== 'home' ? ' app--wide' : ''}`}>
+    <div className={`app page--${page}${page !== 'home' ? ' app--wide' : ''}`}>
       <div className="left" ref={scroller} tabIndex={-1}>
         <div className="left__inner">
           <FolderNav page={page} onHome={toTop} />

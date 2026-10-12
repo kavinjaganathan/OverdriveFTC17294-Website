@@ -6,13 +6,16 @@
 //
 // Fields
 //   season    FTC season, newest first
+//   logo      official FIRST game logo for the season ({ src, w, h }, files in /public/seasons, taken from
+//             FIRST's season logo packages). Omit it and the page shows the season years instead.
 //   title     award as shown on the page; `detail` adds the official placing
 //   events    one or more { name, place, date, iso, source }. `date` is shown as written;
 //             `iso` is the first day (machine-readable). Leave both empty when only the
 //             season is confirmed: the page then shows the season instead.
 //   trophy    'oval' | 'tall' | 'uil': the trophy pictures the deck uses for each award (cut from the
 //             deck into /public/awards; the UIL one is the championship trophy photo)
-//   milestone true = highlighted entry
+//   milestone true = highlighted entry (the state title)
+//   tier      optional 'state' | 'alliance' | 'judged'; otherwise worked out from the title
 //   verified  false = listed by the team but not found in FIRST's record; shown without a date
 //   listedAs  how the deck words it, when the official record differs (kept for reference)
 
@@ -29,7 +32,7 @@ export const AWARDS_INTRO =
 
 export const SEASONS = [
   {
-    season: '2025–2026', game: 'DECODE',
+    season: '2025–2026', game: 'DECODE', logo: { src: '/seasons/2025-26-decode.png', w: 245, h: 360 },
     awards: [
       {
         id: 'sustain-2026', title: 'Sustain Award', count: 3, trophy: 'oval',
@@ -42,7 +45,7 @@ export const SEASONS = [
     ],
   },
   {
-    season: '2024–2025', game: 'INTO THE DEEP',
+    season: '2024–2025', game: 'INTO THE DEEP', logo: { src: '/seasons/2024-25-into-the-deep.png', w: 325, h: 360 },
     awards: [
       {
         id: 'connect-2025', title: 'Connect Award', detail: '2nd place', trophy: 'oval',
@@ -59,7 +62,7 @@ export const SEASONS = [
     ],
   },
   {
-    season: '2023–2024', game: 'CENTERSTAGE',
+    season: '2023–2024', game: 'CENTERSTAGE', logo: { src: '/seasons/2023-24-centerstage.png', w: 360, h: 154 },
     awards: [
       {
         id: 'uil-state-2024', title: 'State Champions', detail: 'Winning alliance, 2nd team selected', trophy: 'uil', milestone: true,
@@ -80,7 +83,17 @@ export const SEASONS = [
     ],
   },
   {
-    season: '2021–2022', game: 'FREIGHT FRENZY',
+    season: '2022–2023', game: 'POWERPLAY', logo: { src: '/seasons/2022-23-powerplay.png', w: 232, h: 360 },
+    awards: [
+      {
+        // Not on the deck's awards slide; added from FIRST's official record for this event.
+        id: 'winning-2023', title: 'Winning Alliance', detail: '1st team selected', trophy: 'tall',
+        events: [{ name: 'TX-North Last Call Qualifier', place: 'Flower Mound, TX', date: 'Feb 18, 2023', iso: '2023-02-18', source: EVENT('2022/USTXNOFMQ') }],
+      },
+    ],
+  },
+  {
+    season: '2021–2022', game: 'FREIGHT FRENZY', logo: { src: '/seasons/2021-22-freight-frenzy.png', w: 330, h: 360 },
     awards: [
       {
         id: 'control-2022', title: 'Control Award', trophy: 'oval',
@@ -101,7 +114,7 @@ export const SEASONS = [
     ],
   },
   {
-    season: '2020–2021', game: 'ULTIMATE GOAL',
+    season: '2020–2021', game: 'ULTIMATE GOAL', logo: { src: '/seasons/2020-21-ultimate-goal.png', w: 320, h: 360 },
     awards: [
       {
         id: 'control-2021', title: 'Control Award', trophy: 'tall',
@@ -114,7 +127,7 @@ export const SEASONS = [
     ],
   },
   {
-    season: '2019–2020', game: 'SKYSTONE', note: 'Rookie season',
+    season: '2019–2020', game: 'SKYSTONE', logo: { src: '/seasons/2019-20-skystone.png', w: 360, h: 233 }, note: 'Rookie season',
     awards: [
       {
         id: 'innovate-2020', title: 'Innovate Award', detail: 'Sponsored by Collins Aerospace', trophy: 'tall',

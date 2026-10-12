@@ -8,6 +8,10 @@
   --purple: #8f3ba5;
   --purple-deep: #6d2a80;
   --nav-h: 64px;
+  /* game-UI panels (Alumni, Awards): outline, light fill, shield stripes */
+  --alum-line: var(--purple-deep);
+  --lav: #efe9f3;
+  --stripes: repeating-linear-gradient(90deg, #2f2e29 0 4px, #e0daca 4px 8px);
   --font: Gotham, 'Gotham SSm', 'Montserrat', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; }
@@ -193,79 +197,158 @@ html, body { overflow: hidden; }
   @keyframes drift { to { transform: translateX(var(--ps)); } }
 }
 
-/* ---------- Awards: centered timeline, entries alternate sides ---------- */
-.awards { --pad: clamp(20px, 4.5vw, 72px); --gap: 56px; --mute: #4a4955; }
-.awards__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(48px, 7vw, 88px); }
-.tl { padding-bottom: clamp(56px, 8vw, 104px); }
-.tl__line { position: relative; --fill: 0; }
-/* grey rail, plus a purple overlay scaled to how far the reader has scrolled */
-.tl__line::before, .tl__line::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; margin-left: -.5px; background: var(--line); }
-.tl__line::after { width: 2px; margin-left: -1px; background: var(--purple); transform-origin: top; transform: scaleY(var(--fill)); opacity: .55; }
+/* ---------- Awards: the trophy road ---------- */
+.awards { overflow-x: clip; --pad: clamp(20px, 4.5vw, 72px); --lane: 112px; --mute: #4a4955; --gold: #d4a72c; --gold-dark: #8a6a12; --silver: #b9bcc4; }
+.awards__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(32px, 5vw, 48px); }
+.awards__title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
+.awards .awards__stats > div:nth-child(n + 2) { border-left: 1px solid var(--line); }
+.awards__stats dd { font-weight: 900; }
+.tl { padding-top: clamp(40px, 6vw, 64px); padding-bottom: clamp(48px, 7vw, 88px); }
+.tl__road { position: relative; isolation: isolate; }
 
-.season { position: relative; padding-top: 72px; }
+/* the road: lavender lane with a dark outline; the purple fill follows the reader */
+.road { position: absolute; z-index: 0; top: 12px; bottom: 0; left: 50%; width: 18px; margin-left: -9px; border: 3px solid var(--alum-line); border-radius: 999px; background: var(--lav); overflow: hidden; }
+.road__fill { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--fill, 0) * 100%); background: var(--purple); }
+
+.endcap { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .5rem; margin-bottom: 2rem; font-size: .8125rem; font-weight: 700; color: var(--mute); }
+.endcap__text { padding: .125rem .5rem; background: #fff; }
+.endcap__node { width: 28px; height: 28px; border: 3px dashed var(--alum-line); border-radius: 50%; background: #fff; }
+
+.seasons, .season__list { list-style: none; padding: 0; }
+.season { position: relative; padding-top: 2.5rem; scroll-margin-top: calc(var(--nav-h) + 16px); }
 .season:first-child { padding-top: 0; }
-.season__head { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: center; margin-bottom: 40px; }
-.season__year { padding-right: var(--gap); text-align: right; font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
-.season__game { padding-left: var(--gap); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
-.season__head::after { content: ''; position: absolute; z-index: 1; left: 50%; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: var(--ink); }
-.season__list { list-style: none; padding: 0; }
+.season__head, .season__list { position: relative; z-index: 1; }
+.season__head { display: flex; flex-direction: column; align-items: center; gap: .5rem; margin-bottom: 2rem; }
+.pennant.season__pennant { display: inline-flex; align-items: center; gap: .75rem; padding: .625rem 4.25rem .75rem; font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+.season__logo-plate { display: grid; place-items: center; width: 44px; height: 44px; padding: 3px; border: 2px solid var(--s1, var(--alum-line)); border-radius: 8px; background: #fff; }
+.season__logo { display: block; width: auto; height: auto; max-width: 34px; max-height: 34px; }
+.season__logo--text { font-size: .5rem; font-weight: 800; text-align: center; color: var(--ink); }
+.season__game { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 .75rem; padding: .25rem .75rem; border-bottom: 2px solid var(--s1, var(--line)); background: var(--s-tint, #fff); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--s3, var(--mute)); }
+.season__count { letter-spacing: 0; text-transform: none; font-weight: 600; }
 
-.award { position: relative; width: 50%; margin-bottom: 40px; }
-.award--left { padding-right: var(--gap); }
-.award--right { margin-left: 50%; padding-left: var(--gap); }
-/* let a right-hand entry rise beside the left one above it so the two columns interleave */
-.award--right:not(:first-child) { margin-top: -56px; }
-.award::before { content: ''; position: absolute; z-index: 1; top: 22px; width: 12px; height: 12px; border: 1px solid #8a8494; border-radius: 50%; background: #fff; }
-.award::after { content: ''; position: absolute; top: 28px; height: 1px; width: calc(var(--gap) - 14px); background: #cfcbd6; }
-.award--left::before { right: -6px; }
-.award--left::after { right: 10px; }
-.award--right::before { left: -6px; }
-.award--right::after { left: 10px; }
+/* season atmosphere: palette tokens (--s1/--s2/--s3/--s-tint) and artwork come from season-patterns.css.
+   Two full-bleed layers behind the road and cards: a pale tint that fades in and out at the season's top
+   and bottom, and the artwork, strongest at the outer edges so the middle stays clear. */
+.season__pat { position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; pointer-events: none; }
+.season__pat::before, .season__pat::after { content: ''; position: absolute; inset: 0; }
+.season__pat::before { background: var(--s-tint); mask-image: linear-gradient(transparent, #000 72px, #000 calc(100% - 72px), transparent); }
+.season__pat::after {
+  background-image: var(--pat); background-size: var(--ps); background-position: center top;
+  mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, .25) 30%, rgba(0, 0, 0, .25) 70%, #000), linear-gradient(transparent, #000 56px, #000 calc(100% - 56px), transparent);
+  mask-composite: intersect;
+}
+/* a short season-coloured stretch of road on either side of the banner */
+.season__head::before { content: ''; position: absolute; z-index: -1; left: 50%; top: -1.5rem; bottom: -1.5rem; width: 12px; margin-left: -6px; border-radius: 6px; background: var(--s1); }
 
-.award__inner { display: flex; gap: 1rem; align-items: flex-start; }
-.award--left .award__inner { flex-direction: row-reverse; text-align: right; }
-.trophy { flex: none; display: grid; place-items: center; width: 48px; height: 72px; }
-.trophy img { display: block; width: auto; height: auto; max-width: 48px; max-height: 72px; }
-.trophy--empty { border: 1px dashed #cfcbd6; }
-.award__text { min-width: 0; padding-top: 2px; }
+/* two cards per row on either side of the road; each card spans six shared row tracks (subgrid) */
+.season__list { display: grid; grid-template-columns: 1fr var(--lane) 1fr; column-gap: 0; }
+.award { position: relative; grid-column: var(--col); grid-row: var(--rs) / span 6; display: grid; grid-template-rows: subgrid; grid-template-columns: auto 1fr; column-gap: 1rem; row-gap: 0; align-content: start; margin-bottom: 1.75rem; padding: 1rem 1.25rem 1.25rem; border: 3px solid var(--alum-line); border-radius: 12px; background: #fff; box-shadow: 0 4px 0 var(--alum-line); }
+/* season detail: a thin accent line inside the top edge, and the medallion's tint */
+.award::before { content: ''; position: absolute; inset: 0 0 auto; height: 3px; margin: 0 12px; background: var(--s1, var(--lav)); border-radius: 0 0 3px 3px; pointer-events: none; }
+.award > :not(.medal, .award__node, .award__shine) { grid-column: 2; min-width: 0; }
+/* connector + node out to the road; right-hand nodes sit lower so paired nodes never overlap */
+.award::after { content: ''; position: absolute; top: 32px; width: calc(var(--lane) / 2 - 12px); height: 3px; background: var(--alum-line); }
+.award--left::after { left: 100%; margin-left: 3px; }
+.award--right::after { right: 100%; margin-right: 3px; top: 106px; }
+.award__node { position: absolute; z-index: 2; top: 22px; width: 24px; height: 24px; border: 3px solid var(--alum-line); border-radius: 50%; background: #fff; transition: background-color .25s ease-out; }
+.award--left .award__node { left: calc(100% + var(--lane) / 2 - 9px); }
+.award--right .award__node { right: calc(100% + var(--lane) / 2 - 9px); top: 96px; }
+.tier--judged .award__node.is-reached { background: var(--purple); }
+.tier--alliance .award__node.is-reached { background: var(--silver); }
+.tier--state .award__node.is-reached { background: var(--gold); }
+
+.medal { position: relative; grid-column: 1; grid-row: 1 / -1; display: grid; place-items: center; width: 64px; height: 64px; border: 3px solid var(--alum-line); border-radius: 50%; background: var(--s-tint, var(--lav)); }
+.medal img { display: block; width: auto; height: auto; max-width: 40px; max-height: 46px; }
+.medal__count { position: absolute; top: -8px; right: -12px; padding: 0 .375rem; border: 2px solid #fff; border-radius: 4px; background: var(--alum-line); color: #fff; font-size: .75rem; font-weight: 800; line-height: 1.25rem; }
+
+.award__tier { display: flex; align-items: center; gap: .375rem; font-size: .6875rem; font-weight: 700; line-height: 1.5rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.award__tier::before { content: ''; width: 8px; height: 8px; border: 2px solid var(--alum-line); border-radius: 50%; background: var(--purple); }
+.tier--alliance .award__tier::before { background: var(--silver); }
+.tier--state .award__tier::before { background: var(--gold); }
 .award__date { font-size: .8125rem; font-weight: 600; line-height: 1.5rem; color: var(--mute); }
-.award__title { font-size: 1.125rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.25; }
-.award__count { color: var(--purple); }
-.award__detail { margin-top: .25rem; font-size: .875rem; line-height: 1.5; color: var(--mute); }
-.award__event { margin-top: .5rem; font-size: .9375rem; line-height: 1.5; }
+.award__title { font-size: 1.125rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.3; }
+.award__detail { font-size: .875rem; line-height: 1.5; color: var(--mute); }
+.award__event { padding-top: .5rem; font-size: .9375rem; line-height: 1.5; }
 .award__place { color: var(--mute); }
-.award__events { list-style: none; padding: 0; margin-top: .5rem; }
-.award__events li { padding: .5rem 0; border-top: 1px solid var(--line); font-size: .9375rem; line-height: 1.4; }
+.award__events { list-style: none; padding: .5rem 0 0; }
+.award__events li { padding: .375rem 0; border-top: 1px solid var(--line); font-size: .9375rem; line-height: 1.4; }
 .award__events a { text-decoration: underline; text-decoration-color: #cfcbd6; text-underline-offset: 3px; }
 .award__events a:hover { color: var(--purple); text-decoration-color: currentColor; }
 .award__events time { display: block; font-size: .8125rem; font-weight: 600; color: var(--mute); }
-.award__src { display: inline-block; margin-top: .5rem; font-size: .8125rem; color: var(--mute); text-decoration: underline; text-decoration-color: #cfcbd6; text-underline-offset: 3px; }
+.award__foot { padding-top: .5rem; font-size: .8125rem; line-height: 1.5; }
+.award__src { color: var(--mute); text-decoration: underline; text-decoration-color: #cfcbd6; text-underline-offset: 3px; }
 .award__src:hover { color: var(--purple); text-decoration-color: currentColor; }
-.award__flag { margin-top: .5rem; font-size: .8125rem; line-height: 1.5; color: var(--mute); }
+.award__flag { color: var(--mute); }
 
-/* the State Championship: tinted, larger photo and title, filled purple node */
-.award--milestone .award__inner { padding: 1.5rem; background: var(--tint); flex-direction: column; gap: 1rem; }
-.award--milestone .trophy { width: 180px; height: auto; place-items: start; }
-.award--milestone .trophy img { max-width: 100%; max-height: none; }
-.award--milestone .award__title { font-size: 1.6rem; color: var(--purple-deep); }
-.award--milestone::before { width: 15px; height: 15px; top: 20px; border: 0; background: var(--purple); }
-.award--milestone.award--right::before { left: -7.5px; }
-.award--milestone.award--left::before { right: -7.5px; }
-.award--milestone::after { background: var(--purple); }
-.award--milestone.award--left .award__inner { align-items: flex-end; }
+/* the state title: tinted, gold outline, larger medallion and title */
+.award--state { border-color: var(--gold-dark); background: var(--tint); box-shadow: 0 4px 0 var(--gold-dark); }
+.award__shine { position: absolute; inset: 0; border-radius: 9px; overflow: hidden; pointer-events: none; }
+.award--state .medal { width: 104px; height: 104px; border-color: var(--gold-dark); background: #fff; }
+.award--state .medal img { max-width: 84px; max-height: 64px; }
+.award--state .award__title { font-size: 1.5rem; color: var(--purple-deep); }
+.award--state .award__node { border-color: var(--gold-dark); }
+.award--state::after { background: var(--gold-dark); }
 
-.tl__end { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: .8125rem; color: var(--mute); }
+.tl__close { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--ink); }
+.tl__ask { font-size: clamp(1.25rem, 2.2vw, 1.75rem); font-weight: 800; letter-spacing: -.02em; }
+.tl__close .cta { margin-top: 1.5rem; }
+.tl__end { margin-top: 2rem; font-size: .8125rem; color: var(--mute); }
 .tl__end a { text-decoration: underline; text-underline-offset: 3px; }
 .tl__end a:hover { color: var(--purple); }
 
+/* fixed season badge (top right) */
+.sbadge { position: fixed; z-index: 40; top: calc(var(--nav-h) + 16px); right: 24px; display: flex; flex-direction: column; align-items: center; gap: .5rem; opacity: 0; visibility: hidden; pointer-events: none; }
+.sbadge.is-visible { opacity: 1; visibility: visible; }
+.sbadge__plate { position: relative; width: 88px; height: 88px; border: 3px solid var(--alum-line); border-radius: 14px; background: #fff; box-shadow: 0 4px 0 var(--alum-line); }
+.sbadge__logo { position: absolute; inset: 8px; display: grid; place-items: center; opacity: 0; }
+.sbadge__logo.is-active { opacity: 1; }
+.sbadge__img { display: block; width: auto; height: auto; max-width: 66px; max-height: 66px; }
+.sbadge__img--text { width: auto; height: auto; font-size: .75rem; font-weight: 800; text-align: center; }
+.sbadge__years { font-size: .9375rem; -webkit-text-stroke-width: 4px; text-shadow: 0 2px 0 var(--alum-line); white-space: nowrap; }
+
+/* season jump rail (desktop left edge) */
+.srail { position: fixed; z-index: 20; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0; visibility: hidden; }
+.srail.is-visible { opacity: 1; visibility: visible; }
+.srail ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: .25rem; }
+.srail button { padding: .25rem .5rem; border: 0; border-left: 3px solid transparent; background: none; font: inherit; font-size: .75rem; font-weight: 700; color: var(--mute); cursor: pointer; }
+.srail button:hover { color: var(--ink); }
+.srail button[aria-current] { color: var(--ink); border-left-color: var(--purple); }
+@media (min-width: 1100px) {
+  /* keep the road clear of the fixed badge (right) and jump rail (left) */
+  .awards .tl { padding-inline: max(var(--pad), 128px); }
+}
+@media (max-width: 1099px) {
+  .srail { display: none; }
+  /* smaller screens: the badge tucks into the right end of the tab bar, which makes room for it */
+  .sbadge { top: 4px; right: 12px; }
+  .sbadge__plate { width: 52px; height: 52px; border-radius: 10px; box-shadow: 0 3px 0 var(--alum-line); }
+  .sbadge__logo { inset: 5px; }
+  .sbadge__img { max-width: 36px; max-height: 36px; }
+  .sbadge__years { display: none; }
+  .page--awards .nav { padding-right: 76px; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .awards--anim .award, .awards--anim .season__head { opacity: 0; translate: 0 12px; transition: opacity .5s ease-out, translate .5s cubic-bezier(.2, .7, .2, 1); }
-  .awards--anim .is-in { opacity: 1; translate: none; }
+  .awards--anim .award { opacity: 0; scale: .96; translate: 0 12px; transition: opacity .45s ease-out var(--delay, 0s), scale .45s cubic-bezier(.2, .7, .2, 1) var(--delay, 0s), translate .45s cubic-bezier(.2, .7, .2, 1) var(--delay, 0s), transform .15s ease-out, box-shadow .15s ease-out; }
+  .awards--anim .award[data-in] { opacity: 1; scale: none; translate: none; }
+  @media (hover: hover) {
+    .award:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--alum-line); }
+    .award--state:hover { box-shadow: 0 5px 0 var(--gold-dark); }
+  }
+  /* one shine across the state card when it first appears (a flat translucent bar) */
+  .awards--anim .award--state[data-in] .award__shine::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; background: rgba(255, 255, 255, .55); transform: translateX(-150%) skewX(-20deg); animation: shine 1.1s .4s ease-out 1 forwards; }
+  @keyframes shine { to { transform: translateX(350%) skewX(-20deg); } }
+  .endcap__node { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { scale: 1.12; } }
+  .sbadge { transition: opacity .25s ease-out, visibility .25s; }
+  .sbadge__logo { transition: opacity .25s ease-out; }
+  .sbadge__logo.is-active { animation: pop .25s ease-out; }
+  @keyframes pop { from { scale: .9; } }
+  .srail { transition: opacity .25s ease-out, visibility .25s; }
 }
 
 /* ---------- Alumni: "the rafters" ---------- */
-/* Outline colour is the site's deep purple; stripes reuse the shield logo's dark/cream pair. */
-.alumni { --pad: clamp(20px, 4.5vw, 72px); --alum-line: var(--purple-deep); --lav: #efe9f3; --c: var(--alum-line); --tint: var(--lav); --mute: #4a4955; --stripes: repeating-linear-gradient(90deg, #2f2e29 0 4px, #e0daca 4px 8px); }
+.alumni { --pad: clamp(20px, 4.5vw, 72px); --c: var(--alum-line); --tint: var(--lav); --mute: #4a4955; }
 .outlined { color: var(--lav); -webkit-text-stroke: 6px var(--alum-line); paint-order: stroke fill; text-shadow: 0 6px 0 var(--alum-line); font-weight: 900; letter-spacing: -.02em; }
 .alumni__head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: end; padding-top: clamp(40px, 7vw, 88px); padding-bottom: clamp(40px, 6vw, 72px); }
 .alumni__title { font-size: clamp(3.2rem, 8vw, 6.5rem); line-height: 1; padding-bottom: 6px; }
@@ -394,21 +477,24 @@ html, body { overflow: hidden; }
   .alumni__head { grid-template-columns: 1fr; align-items: start; }
   .outlined { -webkit-text-stroke-width: 4px; text-shadow: 0 4px 0 var(--alum-line); }
   .pennant { padding-inline: 4rem; }
-  /* timeline moves to the left edge; every entry sits to its right */
-  .awards { --gap: 40px; }
+  /* the road moves to the left edge; every card stacks to its right */
+  .awards { --lane: 40px; }
   .awards__head { grid-template-columns: 1fr; align-items: start; }
-  .tl__line::before, .tl__line::after { left: 7px; }
-  .season__head { grid-template-columns: 1fr; gap: .5rem; padding-left: var(--gap); margin-bottom: 32px; }
-  .season__year, .season__game { padding: 0; text-align: left; }
-  .season__head::after { left: 7px; top: .8rem; }
-  .award, .award--left, .award--right { width: auto; margin-left: 0; padding: 0 0 0 var(--gap); }
-  .award--right:not(:first-child) { margin-top: 0; }
-  .award--left::before, .award--right::before { left: 1px; right: auto; }
-  .award--milestone.award--left::before, .award--milestone.award--right::before { left: -.5px; right: auto; }
-  .award--left::after, .award--right::after { left: 17px; right: auto; width: calc(var(--gap) - 22px); }
-  .award--left .award__inner { flex-direction: row; text-align: left; }
-  .award--milestone .award__inner, .award--milestone.award--left .award__inner { flex-direction: column; align-items: flex-start; padding: 1rem; }
-  .award--milestone .trophy { width: 150px; }
+  .awards .awards__stats { grid-template-columns: repeat(2, 1fr); }
+  .road { left: 9px; }
+  .endcap, .season__head { align-items: flex-start; padding-left: 0; }
+  .endcap { flex-direction: row; }
+  .endcap__node { margin-left: -2px; }
+  .season__list { grid-template-columns: var(--lane) 1fr; }
+  .season__head::before { left: 3px; margin-left: 0; }
+  .award, .award--left, .award--right { grid-column: 2; grid-row: auto / span 6; }
+  .award--left::after, .award--right::after { left: auto; right: 100%; margin: 0 3px 0 0; top: 32px; width: 12px; }
+  .award--left .award__node, .award--right .award__node { left: auto; right: calc(100% + var(--lane) - 18px); top: 22px; }
+  .pennant.season__pennant { padding-inline: 3.75rem; }
+  .season__logo-plate { width: 36px; height: 36px; }
+  .season__logo { max-width: 26px; max-height: 26px; }
+  .award--state .medal { width: 80px; height: 80px; }
+  .award--state .medal img { max-width: 64px; max-height: 50px; }
   .sub__head { grid-template-columns: 1fr; align-items: start; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .stats > div:nth-child(odd) { border-left: 0; padding-left: 0; }
