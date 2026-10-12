@@ -61,7 +61,7 @@ export const SUBTEAMS = [
     id: 'cad', title: 'CAD',
     members: [
       {
-        id: 'adrit-c', name: 'Adrit C.', title: 'Engineering Lead', grade: 'Junior', school: SCHOOL, year: '3rd',
+        id: 'adrit-c', name: 'Adrit C.', title: 'Engineering Lead', grade: 'Sophomore', school: SCHOOL, year: '3rd',
         description: "Helps organize design sessions, run simulations, and plan the robot's individual components and mechanisms.",
       },
       {
