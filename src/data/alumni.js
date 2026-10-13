@@ -37,13 +37,6 @@ export const ALUMNI = [
     advice: '', photo: '', hideCollege: false, confirmed: false,
   },
   {
-    id: 'pm', name: 'Pranav Mutthineni', displayName: 'Pranav M.', classYear: 2026,
-    role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role not listed on profile
-    college: 'duke', major: 'Electrical & Computer Engineering',
-    summary: 'Studying electrical and computer engineering at Duke. He interned at the UTD NanoTech Institute researching thermally driven polymer artificial muscles, and has worked as an engineer at Venus Tech since 2023.',
-    advice: '', photo: '', hideCollege: false, confirmed: false,
-  },
-  {
     id: 'snk', name: 'Subanth Nanda Kumar', displayName: 'Subanth N.', classYear: 2026,
     role: '', subteam: '', yearsOnTeam: 3, // CHECK: Overdrive role unknown
     college: 'ut-austin', major: 'Computer Science',
