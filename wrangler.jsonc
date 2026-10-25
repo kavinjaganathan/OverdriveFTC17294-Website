@@ -2,8 +2,19 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "overdriveftc17294-website",
   "compatibility_date": "2026-10-12",
+  // worker.js handles /STEM (StemCycle Pickup); everything else is static files.
+  "main": "./worker.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/STEM", "/STEM/*"]
+  },
+  // Once the "stemcycle-pickup" Worker is deployed, uncomment to serve it at /STEM:
+  // "services": [{ "binding": "STEMCYCLE", "service": "stemcycle-pickup" }],
+  "vars": {
+    // Only if StemCycle is hosted outside Cloudflare (see worker.js). With neither
+    // this nor the service binding, /STEM shows a short "not available yet" message.
+    "STEMCYCLE_ORIGIN": ""
   }
 }

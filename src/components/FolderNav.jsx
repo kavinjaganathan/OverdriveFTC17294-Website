@@ -19,7 +19,7 @@ export default function FolderNav({ page, onHome }) {
               <li key={t.id} className={`tab${active ? ' is-active' : ''}${t.enabled ? '' : ' is-disabled'}`} style={{ '--i': TABS.length - i }}>
                 {t.enabled ? (
                   <a
-                    href={`#${t.id}`}
+                    href={t.href ?? `#${t.id}`}
                     aria-current={active ? 'page' : undefined}
                     onClick={(e) => { if (active && t.id === 'home') { e.preventDefault(); onHome() } }}
                   >

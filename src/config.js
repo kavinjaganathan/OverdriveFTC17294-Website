@@ -27,5 +27,7 @@ export const TABS = [
   { id: 'robot', label: 'Robot' },
   { id: 'awards', label: 'Awards', enabled: true },
   { id: 'alumni', label: 'Alumni', enabled: true },
+  // StemCycle Pickup (textbook donation pickups) lives at ftcoverdrive.org/STEM.
+  { id: 'stemcycle', label: 'StemCycle', enabled: true, href: '/STEM' },
   { id: 'contact', label: 'Contact' },
 ]
