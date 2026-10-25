@@ -2,8 +2,17 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "overdriveftc17294-website",
   "compatibility_date": "2026-10-12",
+  // worker.js handles /STEM (StemCycle Pickup); everything else is static files.
+  "main": "./worker.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/STEM", "/STEM/*"]
+  },
+  "vars": {
+    // Set to the StemCycle deployment, e.g. "https://stemcycle-pickup.vercel.app".
+    // While empty, /STEM shows a short "not available yet" message.
+    "STEMCYCLE_ORIGIN": ""
   }
 }
