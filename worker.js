@@ -1,10 +1,11 @@
 // Serves the team site's static files, and forwards /STEM to StemCycle Pickup
-// (a separate Next.js app on Vercel, built with basePath "/STEM").
+// (a separate Next.js app, built with basePath "/STEM").
 //
-// Configure in wrangler.jsonc / the Cloudflare dashboard:
-//   STEMCYCLE_ORIGIN        var    e.g. https://stemcycle-pickup.vercel.app
-//   STEMCYCLE_PROXY_SECRET  secret same value as PROXY_SECRET in the app, so it
-//                                  can trust the visitor IP sent below (rate limits)
+// Preferred: StemCycle runs as the Cloudflare Worker "stemcycle-pickup" and is
+// reached through the STEMCYCLE service binding in wrangler.jsonc (no public
+// hop; Cloudflare passes the visitor's CF-Connecting-IP through).
+// Alternative: STEMCYCLE_ORIGIN (var) = the app's public URL elsewhere, with
+// STEMCYCLE_PROXY_SECRET (secret) = the app's PROXY_SECRET.
 
 const PREFIX = '/STEM'
 
@@ -14,6 +15,7 @@ export default {
     if (url.pathname !== PREFIX && !url.pathname.startsWith(`${PREFIX}/`)) {
       return env.ASSETS.fetch(request)
     }
+    if (env.STEMCYCLE) return env.STEMCYCLE.fetch(request)
     if (!env.STEMCYCLE_ORIGIN) {
       return new Response('StemCycle Pickup is not available yet. Please check back soon.', {
         status: 503,
