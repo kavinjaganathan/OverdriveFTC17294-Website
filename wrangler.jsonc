@@ -11,7 +11,7 @@
     "run_worker_first": ["/STEM", "/STEM/*"]
   },
   // Once the "stemcycle-pickup" Worker is deployed, uncomment to serve it at /STEM:
-  // "services": [{ "binding": "STEMCYCLE", "service": "stemcycle-pickup" }],
+  "services": [{ "binding": "STEMCYCLE", "service": "stemcycle-pickup" }],
   "vars": {
     // Only if StemCycle is hosted outside Cloudflare (see worker.js). With neither
     // this nor the service binding, /STEM shows a short "not available yet" message.
